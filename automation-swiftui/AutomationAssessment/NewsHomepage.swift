@@ -1,20 +1,13 @@
-//
-//  ContentView.swift
-//  AutomationAssessment
-//
-//  Created by Nicholas Jones - Mobile iPlayer - Erbium on 29/10/2024.
-//
-
 import SwiftUI
 
-struct ContentView: View {
-    @State private var selectedTag: Tag = Tag.initialDefault
+struct NewsHomepage: View {
+    @State private var selectedTopic: Topic = Topic.initialDefault
     @State private var showingErrorAlert = false
     @State private var showingTVGuideAlert = false
     @State private var isLoading = false
     @State private var currentDate = Date.now
-    @State private var destinationTag = NavigationPath()
-
+    @State private var destinationTopic = NavigationPath()
+    
     var titleView: some View {
         HStack {
             Text("My BBC")
@@ -30,12 +23,13 @@ struct ContentView: View {
                 }
             } label: {
                 Image(systemName: "arrow.clockwise.circle.fill")
+                    .imageScale(.large)
             } // intentionally not adding an accessibility identifier to this button
         }
     }
-
+    
     var placeholderImage: some View {
-        Image("bbc_location")
+        Image(.bbcLocation)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .scaledToFit()
@@ -43,7 +37,7 @@ struct ContentView: View {
             .padding(.top)
             .accessibilityAddTraits(.isImage)
     }
-
+    
     var subtitleView: some View {
         VStack(alignment: .leading) {
             Text("Last updated: \(currentDate.formatted(date: .abbreviated, time: .standard))")
@@ -55,39 +49,38 @@ struct ContentView: View {
                 .font(.subheadline)
         }
     }
-
+    
     var headerView: some View {
-        VStack {
+        VStack(alignment: .leading) {
             titleView
             placeholderImage
             subtitleView
         }
     }
-
+    
     var tagSelector: some View {
         HStack {
-            Button {
-                switch selectedTag {
-                case .tvGuide:
-                    showingTVGuideAlert = true
-                default:
-                    destinationTag.append(selectedTag)
-                }
-            } label : {
-                Text("Go to \(selectedTag.title)")
-            }
-            .accessibilityIdentifier(AutomationIdentifiers.tagNavigation.rawValue)
-
-            Spacer()
-            Picker("Tag", selection: $selectedTag) {
-                ForEach(Tag.allCases, id: \.self) {
+            Picker("Topic", selection: $selectedTopic) {
+                ForEach(Topic.allCases, id: \.self) {
                     Text($0.title)
                 }
             }
             .accessibilityIdentifier(AutomationIdentifiers.tagPicker.rawValue)
+            Spacer()
+            Button {
+                switch selectedTopic {
+                case .tvGuide:
+                    showingTVGuideAlert = true
+                default:
+                    destinationTopic.append(selectedTopic)
+                }
+            } label : {
+                Text("Go to \(selectedTopic.title)")
+            }
+            .accessibilityIdentifier(AutomationIdentifiers.tagNavigation.rawValue)
         }
     }
-
+    
     var footer: some View {
         Button {
             showingErrorAlert = true
@@ -101,33 +94,33 @@ struct ContentView: View {
         }
         .accessibilityIdentifier(AutomationIdentifiers.homeFooterButton.rawValue)
     }
-
+    
     var loadingView: some View {
         ProgressView()
             .progressViewStyle(.circular)
             .controlSize(.extraLarge)
             .background(Color.white.opacity(0.25))
     }
-
+    
     var body: some View {
-        NavigationStack(path: $destinationTag, root: {
-                VStack {
-                    headerView
-                    tagSelector
-                    Spacer()
-                    footer
-                }
-                .padding()
+        NavigationStack(path: $destinationTopic, root: {
+            VStack {
+                headerView
+                tagSelector
+                Spacer()
+                footer
+            }
+            .padding()
             .toolbar(content: {
                 ToolbarItem(placement: .principal) {
-                    Image("homeNavIcon")
+                    Image(.homeNavIcon)
                         .accessibilityLabel("BBC logo")
                         .accessibility(removeTraits: .isImage)
                         .accessibilityAddTraits(.isHeader)
                 }
             })
-            .navigationDestination(for: Tag.self) { tag in
-                TagContentView(tag: tag)
+            .navigationDestination(for: Topic.self) { topic in
+                TopicContentView(topic: topic)
             }
         })
         .overlay {
@@ -139,39 +132,12 @@ struct ContentView: View {
             Button("Ok", role: .cancel) {}
         }
         .alert("Do you have a TV license?", isPresented: $showingTVGuideAlert) {
-            Button("Yes", role: .none) { destinationTag.append(Tag.tvGuide) }
+            Button("Yes", role: .none) { destinationTopic.append(Topic.tvGuide) }
             Button("No", role: .cancel) {}
         }
     }
 }
 
 #Preview {
-    ContentView()
-}
-
-enum Tag: Hashable, CaseIterable {
-    case politics
-    case uk
-    case sport
-    case tech
-    case world
-    case tvGuide
-
-    static var initialDefault: Tag { return .politics }
-    var title: String {
-        switch self {
-        case .politics:
-            return "Politics"
-        case .uk:
-            return "UK"
-        case .sport:
-            return "Sport"
-        case .tech:
-            return "Technology"
-        case .world:
-            return "World"
-        case .tvGuide:
-            return "TV Guide"
-        }
-    }
+    NewsHomepage()
 }

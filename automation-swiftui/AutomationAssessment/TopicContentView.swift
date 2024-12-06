@@ -1,14 +1,7 @@
-//
-//  TagContentView.swift
-//  AutomationAssessment
-//
-//  Created by Nicholas Jones - Mobile iPlayer - Erbium on 29/10/2024.
-//
-
 import SwiftUI
 
-struct TagContentView: View {
-    let tag: Tag
+struct TopicContentView: View {
+    let topic: Topic
     var body: some View {
         ScrollView {
             Text(
@@ -37,12 +30,12 @@ This is the end of the placeholder text.
             .accessibilityIdentifier(AutomationIdentifiers.contentText.rawValue)
             .padding()
         }
-        .navigationTitle(tag.title)
+        .navigationTitle(topic.title)
     }
 }
 
 #Preview {
     NavigationStack {
-        TagContentView(tag: .politics)
+        TopicContentView(topic: .politics)
     }
 }
