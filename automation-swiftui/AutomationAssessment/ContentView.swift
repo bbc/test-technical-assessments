@@ -6,7 +6,7 @@ struct ContentView: View {
     @State private var showingTVGuideAlert = false
     @State private var isLoading = false
     @State private var currentDate = Date.now
-    @State private var destinationTag = NavigationPath()
+    @State private var destinationTopic = NavigationPath()
 
     var titleView: some View {
         HStack {
@@ -64,7 +64,7 @@ struct ContentView: View {
                 case .tvGuide:
                     showingTVGuideAlert = true
                 default:
-                    destinationTag.append(selectedTopic)
+                    destinationTopic.append(selectedTopic)
                 }
             } label : {
                 Text("Go to \(selectedTopic.title)")
@@ -103,7 +103,7 @@ struct ContentView: View {
     }
 
     var body: some View {
-        NavigationStack(path: $destinationTag, root: {
+        NavigationStack(path: $destinationTopic, root: {
                 VStack {
                     headerView
                     tagSelector
@@ -132,7 +132,7 @@ struct ContentView: View {
             Button("Ok", role: .cancel) {}
         }
         .alert("Do you have a TV license?", isPresented: $showingTVGuideAlert) {
-            Button("Yes", role: .none) { destinationTag.append(Topic.tvGuide) }
+            Button("Yes", role: .none) { destinationTopic.append(Topic.tvGuide) }
             Button("No", role: .cancel) {}
         }
     }
