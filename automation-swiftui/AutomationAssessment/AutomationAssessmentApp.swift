@@ -4,7 +4,7 @@ import SwiftUI
 struct AutomationAssessmentApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NewsHomepage()
         }
     }
 }

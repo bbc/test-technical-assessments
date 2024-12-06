@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ContentView: View {
+struct NewsHomepage: View {
     @State private var selectedTopic: Topic = Topic.initialDefault
     @State private var showingErrorAlert = false
     @State private var showingTVGuideAlert = false
@@ -139,5 +139,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    NewsHomepage()
 }
