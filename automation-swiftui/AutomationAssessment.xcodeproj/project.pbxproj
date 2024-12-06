@@ -99,8 +99,8 @@
 		6A9F7EED2CD0E39500A70348 /* AutomationAssessment */ = {
 			isa = PBXGroup;
 			children = (
-				6A9F7EEE2CD0E39500A70348 /* AutomationAssessmentApp.swift */,
 				6A9F7F1C2CD156B700A70348 /* README.md */,
+				6A9F7EEE2CD0E39500A70348 /* AutomationAssessmentApp.swift */,
 				6A9F7EF02CD0E39500A70348 /* ContentView.swift */,
 				6A9F7F1A2CD14B7400A70348 /* AutomationIdentifiers.swift */,
 				6A9F7F182CD0ED2500A70348 /* TagContentView.swift */,

@@ -1,10 +1,3 @@
-//
-//  AutomationIdentifiers.swift
-//  AutomationAssessment
-//
-//  Created by Nicholas Jones - Mobile iPlayer - Erbium on 29/10/2024.
-//
-
 import Foundation
 
 enum AutomationIdentifiers: String {
