@@ -7,7 +7,7 @@ struct ContentView: View {
     @State private var isLoading = false
     @State private var currentDate = Date.now
     @State private var destinationTopic = NavigationPath()
-
+    
     var titleView: some View {
         HStack {
             Text("My BBC")
@@ -27,7 +27,7 @@ struct ContentView: View {
             } // intentionally not adding an accessibility identifier to this button
         }
     }
-
+    
     var placeholderImage: some View {
         Image(.bbcLocation)
             .resizable()
@@ -37,7 +37,7 @@ struct ContentView: View {
             .padding(.top)
             .accessibilityAddTraits(.isImage)
     }
-
+    
     var subtitleView: some View {
         VStack(alignment: .leading) {
             Text("Last updated: \(currentDate.formatted(date: .abbreviated, time: .standard))")
@@ -49,7 +49,7 @@ struct ContentView: View {
                 .font(.subheadline)
         }
     }
-
+    
     var headerView: some View {
         VStack(alignment: .leading) {
             titleView
@@ -57,9 +57,16 @@ struct ContentView: View {
             subtitleView
         }
     }
-
+    
     var tagSelector: some View {
         HStack {
+            Picker("Topic", selection: $selectedTopic) {
+                ForEach(Topic.allCases, id: \.self) {
+                    Text($0.title)
+                }
+            }
+            .accessibilityIdentifier(AutomationIdentifiers.tagPicker.rawValue)
+            Spacer()
             Button {
                 switch selectedTopic {
                 case .tvGuide:
@@ -71,17 +78,9 @@ struct ContentView: View {
                 Text("Go to \(selectedTopic.title)")
             }
             .accessibilityIdentifier(AutomationIdentifiers.tagNavigation.rawValue)
-
-            Spacer()
-            Picker("Topic", selection: $selectedTopic) {
-                ForEach(Topic.allCases, id: \.self) {
-                    Text($0.title)
-                }
-            }
-            .accessibilityIdentifier(AutomationIdentifiers.tagPicker.rawValue)
         }
     }
-
+    
     var footer: some View {
         Button {
             showingErrorAlert = true
@@ -95,23 +94,23 @@ struct ContentView: View {
         }
         .accessibilityIdentifier(AutomationIdentifiers.homeFooterButton.rawValue)
     }
-
+    
     var loadingView: some View {
         ProgressView()
             .progressViewStyle(.circular)
             .controlSize(.extraLarge)
             .background(Color.white.opacity(0.25))
     }
-
+    
     var body: some View {
         NavigationStack(path: $destinationTopic, root: {
-                VStack {
-                    headerView
-                    tagSelector
-                    Spacer()
-                    footer
-                }
-                .padding()
+            VStack {
+                headerView
+                tagSelector
+                Spacer()
+                footer
+            }
+            .padding()
             .toolbar(content: {
                 ToolbarItem(placement: .principal) {
                     Image(.homeNavIcon)

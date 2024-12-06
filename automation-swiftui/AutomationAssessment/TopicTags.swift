@@ -5,7 +5,7 @@ enum Topic: Hashable, CaseIterable {
     case tech
     case world
     case tvGuide
-
+    
     static var initialDefault: Topic { return .politics }
     var title: String {
         switch self {
