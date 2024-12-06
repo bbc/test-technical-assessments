@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct TagContentView: View {
-    let tag: Tag
+struct TopicContentView: View {
+    let topic: Topic
     var body: some View {
         ScrollView {
             Text(
@@ -30,12 +30,12 @@ This is the end of the placeholder text.
             .accessibilityIdentifier(AutomationIdentifiers.contentText.rawValue)
             .padding()
         }
-        .navigationTitle(tag.title)
+        .navigationTitle(topic.title)
     }
 }
 
 #Preview {
     NavigationStack {
-        TagContentView(tag: .politics)
+        TopicContentView(topic: .politics)
     }
 }

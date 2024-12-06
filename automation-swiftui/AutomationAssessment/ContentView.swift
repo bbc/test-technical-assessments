@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selectedTag: Tag = Tag.initialDefault
+    @State private var selectedTopic: Topic = Topic.initialDefault
     @State private var showingErrorAlert = false
     @State private var showingTVGuideAlert = false
     @State private var isLoading = false
@@ -60,20 +60,20 @@ struct ContentView: View {
     var tagSelector: some View {
         HStack {
             Button {
-                switch selectedTag {
+                switch selectedTopic {
                 case .tvGuide:
                     showingTVGuideAlert = true
                 default:
-                    destinationTag.append(selectedTag)
+                    destinationTag.append(selectedTopic)
                 }
             } label : {
-                Text("Go to \(selectedTag.title)")
+                Text("Go to \(selectedTopic.title)")
             }
             .accessibilityIdentifier(AutomationIdentifiers.tagNavigation.rawValue)
 
             Spacer()
-            Picker("Tag", selection: $selectedTag) {
-                ForEach(Tag.allCases, id: \.self) {
+            Picker("Topic", selection: $selectedTopic) {
+                ForEach(Topic.allCases, id: \.self) {
                     Text($0.title)
                 }
             }
@@ -119,8 +119,8 @@ struct ContentView: View {
                         .accessibilityAddTraits(.isHeader)
                 }
             })
-            .navigationDestination(for: Tag.self) { tag in
-                TagContentView(tag: tag)
+            .navigationDestination(for: Topic.self) { topic in
+                TopicContentView(topic: topic)
             }
         })
         .overlay {
@@ -132,7 +132,7 @@ struct ContentView: View {
             Button("Ok", role: .cancel) {}
         }
         .alert("Do you have a TV license?", isPresented: $showingTVGuideAlert) {
-            Button("Yes", role: .none) { destinationTag.append(Tag.tvGuide) }
+            Button("Yes", role: .none) { destinationTag.append(Topic.tvGuide) }
             Button("No", role: .cancel) {}
         }
     }
@@ -140,31 +140,4 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-}
-
-enum Tag: Hashable, CaseIterable {
-    case politics
-    case uk
-    case sport
-    case tech
-    case world
-    case tvGuide
-
-    static var initialDefault: Tag { return .politics }
-    var title: String {
-        switch self {
-        case .politics:
-            return "Politics"
-        case .uk:
-            return "UK"
-        case .sport:
-            return "Sport"
-        case .tech:
-            return "Technology"
-        case .world:
-            return "World"
-        case .tvGuide:
-            return "TV Guide"
-        }
-    }
 }
