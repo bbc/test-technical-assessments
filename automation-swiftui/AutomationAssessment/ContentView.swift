@@ -23,12 +23,13 @@ struct ContentView: View {
                 }
             } label: {
                 Image(systemName: "arrow.clockwise.circle.fill")
+                    .imageScale(.large)
             } // intentionally not adding an accessibility identifier to this button
         }
     }
 
     var placeholderImage: some View {
-        Image("bbc_location")
+        Image(.bbcLocation)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .scaledToFit()
@@ -50,7 +51,7 @@ struct ContentView: View {
     }
 
     var headerView: some View {
-        VStack {
+        VStack(alignment: .leading) {
             titleView
             placeholderImage
             subtitleView
@@ -113,7 +114,7 @@ struct ContentView: View {
                 .padding()
             .toolbar(content: {
                 ToolbarItem(placement: .principal) {
-                    Image("homeNavIcon")
+                    Image(.homeNavIcon)
                         .accessibilityLabel("BBC logo")
                         .accessibility(removeTraits: .isImage)
                         .accessibilityAddTraits(.isHeader)
